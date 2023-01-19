@@ -152,7 +152,7 @@ service provider (as ``hostname/saml_url``).
                 "nameIdEncrypted": false,
                 "authnRequestsSigned": true,
                 "logoutRequestSigned": true,
-                "logoutResponseSigned": false,
+                "logoutResponseSigned": true,
                 "signMetadata": false,
                 "wantMessagesSigned": false,
                 "wantAssertionsSigned": true,
@@ -186,6 +186,9 @@ service provider (as ``hostname/saml_url``).
       application
    2. Replace all values in ``ContactPerson`` and ``organization`` to your own
       needs
+   3. Ensure ``security.metadataValidUntil`` is a date that you're comfortable
+      with. Make sure you note this down, as your application might stop working
+      after this date expires.
 
 6. | Inside the ``saml/certs`` folder you created earlier, there should the
      public and private components of a key that SAML can use to sign requests.
