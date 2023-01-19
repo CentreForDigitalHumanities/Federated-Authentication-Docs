@@ -3,7 +3,7 @@ Home
 
 This repository tries to aggregate various how-to's in the topic of setting op a
 Federated authentication client to talk to the Identity Provider of University
-Utrecht's ITS.
+Utrecht's ITS and/or SurfConnext.
 
 Currently we provide documentation on SAML using PHP, Python and (more
 specifically) Django. We aim to include similar documentation on OpenID in the
