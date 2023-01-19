@@ -4,3 +4,6 @@ venv
 
 # Editors
 .idea
+
+# Compiled versions
+_build
