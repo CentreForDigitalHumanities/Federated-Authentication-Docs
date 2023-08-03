@@ -25,12 +25,21 @@ future.
    examples for the used programming language or updating the how-to and create
    a pull request.
 
-|
+Getting help
+------------
 
-**Acknowledgements**
+If you have any questions or comments about this documentation, please open a
+discussion
+`on the GitHub repository <https://github.com/CentreForDigitalHumanities/Federated-Authentication-Docs/discussions>`_.
+
+For general questions about Federated Auth at the UU, you can contact ITS IAM
+through the
+`ITS service desk <https://www.uu.nl/en/organisation/information-and-technology-services-its/i-want-to/get-help-and-advice>`_.
+
+Acknowledgements
+----------------
 
 This documentation is (partly) based on documentation originally written by
 `A.J. de Mooij <https://www.uu.nl/staff/AJdeMooij1>`_ for the ILS Labs.
-Special thanks to `T.P.R. de Haas <https://www.uu.nl/medewerkers/TPRdeHaas>`_,
-Information and Technology Services.
+Special thanks to T.P.R. de Haas, Information and Technology Services.
 
