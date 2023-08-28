@@ -240,6 +240,34 @@ As we configured Django to only add all the SAML related urls etc if the
 ``saml_settings.py`` file is present, this will also enable local development
 using the default authentication backend only.
 
+Multiple IdP's
+**************
+
+The FA-app is meant to be used with one IdP only. However, if you have multiple
+IdP which use the same config, you can use them simultaneously by adding the
+following config override to ``create_saml_config``:
+
+.. code-block:: python
+
+    config_overrides={
+        'metadata': {
+            'remote': [
+                {'url': '<idp1_metadata_url>',},
+                {'url': '<idp2_metadata_url>',},
+            ]
+        }
+    }
+
+This can be used to in non-production environments to add both the ITS
+acceptation IdP and the :doc:`Development IdP <../developmentidp/index>`
+as a fallback option. (Useful if you want to be able to properly test SAML in
+the acceptation but also want to use custom test users).
+
+When logging in, you will be prompted for which IdP you want to use.
+
+If you want to use multiple IdP's that use different configurations, please open
+an issue in the DSC repository.
+
 Advanced options
 ****************
 
