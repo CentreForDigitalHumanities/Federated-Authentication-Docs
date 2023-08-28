@@ -31,7 +31,7 @@ Dependencies
    * libxlst1-dev
    * python-dev
    * pkg-config
-   * libxmlsec1-dev
+   * xmlsec1
 
 2. For the python side, you only need to include the DSC library to your
    dependency list:
