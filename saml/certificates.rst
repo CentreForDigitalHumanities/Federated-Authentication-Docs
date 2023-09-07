@@ -5,7 +5,7 @@ Using a script
 --------------
 This documentation provides a interactive bash script to generate self-signed
 certificates. You can find it in the
-`scripts folder in the repository<https://github.com/CentreForDigitalHumanities/Federated-Authentication-Docs/blob/master/scripts/generate_saml_cert.sh>`_.
+`scripts folder in the repository <https://github.com/CentreForDigitalHumanities/Federated-Authentication-Docs/blob/master/scripts/generate_saml_cert.sh>`_.
 
 Please follow the instructions when running the script, and you're all set!
 
