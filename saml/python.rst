@@ -303,6 +303,12 @@ etc).
 Once they have added you, you should be able to use SAML for authenticating your
 users.
 
+.. note::
+
+   ITS requires SAML trace of a successful login/logout on the acceptation
+   environment before they allow a production SP to be added to the IdP.
+   Please see the :doc:`SAML trace page <trace>` for more info.
+
 Using SAML auth in your project
 *******************************
 

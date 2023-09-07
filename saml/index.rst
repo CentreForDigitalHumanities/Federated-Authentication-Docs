@@ -2,7 +2,7 @@ SAML
 ====
 
 SAML2 (Security Assertion Markup Language) is an xml-based standard for allowing
-federated authentication. The Univerity Utrecht is slowly moving all its web
+federated authentication. The University Utrecht is slowly moving all its web
 applications from LDAP authentication to SAML. With SAML, the user is
 redirected to a login page of the university, so no passwords have to be sent
 over the server that hosts an application, while still allowing Solis-ID
@@ -13,7 +13,7 @@ Provider (SP). The Identity Provider is hosted by the university. The Service
 Provider rests with the application, and communicates with the Identity Provider.
 
 .. note::
-    A slightly more in-depth explaination on SAML can be found on
+    A slightly more in-depth explanation on SAML can be found on
     `this page <https://communities.surf.nl/trust-en-identity/artikel/saml-for-dummies>`_
     from Surf.
 
@@ -30,6 +30,7 @@ Python (generic) and Django.
    python
    django
    certificates
+   trace
 
 General SAML info
 -----------------
@@ -45,7 +46,7 @@ viewed on `their documentation <https://wiki.iam.uu.nl/books/saml-20/page/vereis
 
 You can use the SSL certificates used by your webhost for SSL, but these tend
 to expire quite quickly. We recommend you generate your own certificates, which
-can have a maximum lifetime of 5 years, which is decribed in the
+can have a maximum lifetime of 5 years, which is described in the
 :doc:`certificates guide <certificates>`.
 
 Environments
@@ -66,17 +67,10 @@ SAML Trace
 **********
 
 Before you can connect a production SP, ITS will require you to connect an
-acceptation SP first to test if it works. They'll probably also want a SAML
+acceptation SP first to test if it works. They'll also want a SAML
 trace log from a successful login/logout using the acceptation IdP.
 
-This can be done by using the SAML-tracer extension:
-`Firefox <https://addons.mozilla.org/en-US/firefox/addon/saml-tracer/>`_,
-`Chrome <https://chrome.google.com/webstore/detail/saml-tracer/mpdajninpobndbfcldcmbpnnbhibjmch?hl=en>`_
-
-Simply open your app in a private window, open the tracer plugin and do a login
-followed by a logout. After that, search for the download button and sent the
-resulting file along with your request to connect your production SP.
-
+Please see the :doc:`SAML trace guide<trace>` on how to do that.
 
 HTTPS
 *****

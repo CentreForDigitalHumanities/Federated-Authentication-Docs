@@ -222,7 +222,7 @@ users.
 
    ITS requires SAML trace of a successful login/logout on the acceptation
    environment before they allow a production SP to be added to the IdP.
-   Please see the :doc:`SAML overview page <index>` for more info.
+   Please see the :doc:`SAML trace page <trace>` for more info.
 
 Tips
 ----
