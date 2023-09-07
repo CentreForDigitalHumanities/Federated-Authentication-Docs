@@ -13,7 +13,6 @@ future.
    :maxdepth: 2
    :caption: Contents:
 
-   general/index
    saml/index
    developmentidp/index
 
