@@ -8,11 +8,6 @@ These instructions use the CDH Federated Auth django app (FA-app), part of the
 This app simplifies setting up SAML in Django, and uses DjangoSaml2 and PySAML2
 libraries under the hood.
 
-.. warning::
-    The Federated Auth app is added in DSC 3.1, which currently is still in
-    beta. While the FA-app is production ready, it is not recommended to use
-    3.1 in production if you use more than the FA-app.
-
 .. contents:: **Table of Contents**
     :local:
     :depth: 3
