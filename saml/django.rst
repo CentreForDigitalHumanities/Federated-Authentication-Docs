@@ -2,7 +2,7 @@ Django guide
 ============
 
 These instructions use the CDH Federated Auth django app (FA-app), part of the
-`Django Shared Core <https://github.com/DH-IT-Portal-Development/django-shared-core>`_
+`Django Shared Core <https://github.com/CentreForDigitalHumanities/django-shared-core>`_
 (DSC) project.
 
 This app simplifies setting up SAML in Django, and uses DjangoSaml2 and PySAML2
