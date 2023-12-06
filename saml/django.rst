@@ -23,7 +23,7 @@ Dependencies
 
    * libxml2
    * libxml2-dev
-   * libxlst1-dev
+   * libxslt1-dev
    * python-dev
    * pkg-config
    * xmlsec1
