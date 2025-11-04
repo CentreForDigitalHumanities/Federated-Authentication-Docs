@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8"/><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Making a SAML trace &mdash; CDH Federated Authentication  documentation</title>
+            <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+            <link rel="stylesheet" href="../_static/theme.css" type="text/css"/>
+        <script src="../_static/bootstrap.bundle.min.js"></script>
+            
+                    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+                    <script src="../_static/doctools.js"></script>
+                    <script src="../_static/sphinx_highlight.js"></script>
+            <script src="../_static/js/theme.js"></script>
+            <link rel="index" title="Index" href="../genindex.html"/>
+            <link rel="search" title="Search" href="../search.html"/>
+            <link rel="next" title="Development IdP" href="../developmentidp/index.html"/>
+            <link rel="prev" title="Generating self-signed certificates" href="certificates.html"/> 
+    <style>
+        .navbar .caption {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="uu-root-container">
+    <div class="uu-header">
+        <div class="uu-header-row">
+            <div class="uu-logo">
+                <img src="../_static/logo-header-en.svg">
+            </div>
+            <div class="fs-3 ms-5 text-black">
+                CDH Federated Authentication  documentation
+            </div>
+            <div class="border-left ms-auto">
+                <div role="search" class="ms-auto">
+                  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+                    <input type="text" class="form-control" name="q" placeholder="Search docs" />
+                    <input type="hidden" name="check_keywords" value="yes" />
+                    <input type="hidden" name="area" value="default" />
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <nav class="navbar uu-navbar">
+            <div class="uu-navbar-container">
+                <a href="https://www.uu.nl" class="navbar-brand">
+                    <img src="../_static/logo-header-en.svg">
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar-content"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon" />
+                </button>
+                <div id="navbar-content" class="collapse navbar-collapse">
+                        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">SAML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developmentidp/index.html">Development IdP</a></li>
+</ul>
+
+                </div>
+            </div>
+        </nav>
+    <div class="uu-content">
+        <div class="uu-hero"><ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+        <a href="../index.html">
+            CDH Federated Authentication
+        </a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="index.html"
+           
+               accesskey="U"
+               class="active"
+           >
+           SAML
+        </a>
+    </li>
+    <li class="breadcrumb-item active">Making a SAML trace</li>
+</ol></div> 
+                <div class="uu-container">
+                    <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                            <div itemprop="articleBody">
+                                
+  <section id="making-a-saml-trace">
+<h1>Making a SAML trace<a class="headerlink" href="#making-a-saml-trace" title="Permalink to this heading">¶</a></h1>
+<p>Before you can connect a production SP, ITS IAM will require you to connect an
+acceptation SP first to test if it works. They’ll also want a SAML
+trace log from a successful login/logout using the acceptation IdP.</p>
+<p>This can be done by using the SAML-tracer extension:
+<a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/saml-tracer/">Firefox</a>,
+<a class="reference external" href="https://chrome.google.com/webstore/detail/saml-tracer/mpdajninpobndbfcldcmbpnnbhibjmch?hl=en">Chrome</a></p>
+<p>ITS IAM expects three things in the trace:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>A successful login</p></li>
+<li><p>A successful SP-initiated logout</p></li>
+<li><p>A successful IdP-initiated logout</p></li>
+</ul>
+</div></blockquote>
+<p>See also the IAM wiki for more info:
+<a class="reference external" href="https://wiki.iam.uu.nl/books/saml-tracer">SAML-tracer</a></p>
+<section id="quick-tracer-guide">
+<h2>Quick tracer-guide<a class="headerlink" href="#quick-tracer-guide" title="Permalink to this heading">¶</a></h2>
+<p>(Note: this is a very simple explanation to get you started, and is in no way
+a proper user-guide).</p>
+<p>The tracer will list all requests done by your browser. Any requests that handle
+SAML requests will be labeled ‘SAML’. If you click on said request, the details
+view will also have the ‘SAML’ and ‘Summary’ tabs.</p>
+<p>The SAML tab will show you the raw SAML request, the ‘Summary’ will show a human
+readable version of the request.</p>
+<p>All SAML requests should contain a ‘Status’ element (which is not displayed in
+the summary, sadly). You want them all to look like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;ns0:Status&gt;</span>
+<span class="w">    </span><span class="nt">&lt;ns0:StatusCode</span><span class="w"> </span><span class="na">Value=</span><span class="s">&quot;urn:oasis:names:tc:SAML:2.0:status:Success&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/ns0:Status&gt;</span>
+</pre></div>
+</div>
+<p>Note: namespaces (ns0 in this example) might vary.</p>
+</section>
+<section id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p>Open the SAML tracer extension</p>
+<ul class="simple">
+<li><p>Preferably in a private window of a browser with no other windows open.
+(The tracer extension captures all traffic, so this is to keep the log
+clean)</p></li>
+</ul>
+</li>
+<li><p>Log in with SAML in your app (using one of your ITS test accounts)</p></li>
+<li><p>Log out using your app’s saml-logout page</p>
+<ul>
+<li><p>If you’re nice, you can export the trace now (see step 7) and rename that
+file ‘SP initiated logout’ and clear the log. Then export the next steps
+as ‘IdP initiated logout’.</p>
+<p>IAM can handle a combined trace file, but it’s clearer if they are in
+separate files.</p>
+</li>
+</ul>
+</li>
+<li><p>Log in again</p></li>
+<li><p>Go to <a class="reference external" href="https://login.acc.uu.nl/nidp/app/logout">https://login.acc.uu.nl/nidp/app/logout</a></p></li>
+<li><p>You’ll see an error page, most likely. This probably does not actually mean
+your logout didn’t work. Check the SAML LogoutResponse (should be the last one
+labeled SAML) in the tracer to see if the actual response says ‘Success’.</p></li>
+<li><p>If everything checks out, press the export button, keep the default export
+settings and press ‘export’. This will download a JSON file, which you can
+send to ITS IAM.</p></li>
+</ol>
+</section>
+</section>
+
+
+                            </div>
+                            </div>
+                </div>
+    </div>
+
+    <footer class="uu-footer">
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Centre for Digital Humanities, Utrecht University.</p>
+  </div> 
+
+</footer>
+</div>
+
+</body>
+</html>

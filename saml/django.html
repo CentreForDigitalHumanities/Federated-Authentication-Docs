@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8"/><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Django guide &mdash; CDH Federated Authentication  documentation</title>
+            <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+            <link rel="stylesheet" href="../_static/theme.css" type="text/css"/>
+        <script src="../_static/bootstrap.bundle.min.js"></script>
+            
+                    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+                    <script src="../_static/doctools.js"></script>
+                    <script src="../_static/sphinx_highlight.js"></script>
+            <script src="../_static/js/theme.js"></script>
+            <link rel="index" title="Index" href="../genindex.html"/>
+            <link rel="search" title="Search" href="../search.html"/>
+            <link rel="next" title="Generating self-signed certificates" href="certificates.html"/>
+            <link rel="prev" title="Python guide" href="python.html"/> 
+    <style>
+        .navbar .caption {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="uu-root-container">
+    <div class="uu-header">
+        <div class="uu-header-row">
+            <div class="uu-logo">
+                <img src="../_static/logo-header-en.svg">
+            </div>
+            <div class="fs-3 ms-5 text-black">
+                CDH Federated Authentication  documentation
+            </div>
+            <div class="border-left ms-auto">
+                <div role="search" class="ms-auto">
+                  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+                    <input type="text" class="form-control" name="q" placeholder="Search docs" />
+                    <input type="hidden" name="check_keywords" value="yes" />
+                    <input type="hidden" name="area" value="default" />
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <nav class="navbar uu-navbar">
+            <div class="uu-navbar-container">
+                <a href="https://www.uu.nl" class="navbar-brand">
+                    <img src="../_static/logo-header-en.svg">
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar-content"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon" />
+                </button>
+                <div id="navbar-content" class="collapse navbar-collapse">
+                        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">SAML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developmentidp/index.html">Development IdP</a></li>
+</ul>
+
+                </div>
+            </div>
+        </nav>
+    <div class="uu-content">
+        <div class="uu-hero"><ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+        <a href="../index.html">
+            CDH Federated Authentication
+        </a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="index.html"
+           
+               accesskey="U"
+               class="active"
+           >
+           SAML
+        </a>
+    </li>
+    <li class="breadcrumb-item active">Django guide</li>
+</ol></div> 
+                <div class="uu-container">
+                    <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                            <div itemprop="articleBody">
+                                
+  <section id="django-guide">
+<h1>Django guide<a class="headerlink" href="#django-guide" title="Permalink to this heading">¶</a></h1>
+<p>These instructions use the CDH Federated Auth django app (FA-app), part of the
+<a class="reference external" href="https://github.com/CentreForDigitalHumanities/django-shared-core">Django Shared Core</a>
+(DSC) project.</p>
+<p>This app simplifies setting up SAML in Django, and uses DjangoSaml2 and PySAML2
+libraries under the hood.</p>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title"><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#library-setup" id="id1">Library Setup</a></p>
+<ul>
+<li><p><a class="reference internal" href="#dependencies" id="id2">Dependencies</a></p></li>
+<li><p><a class="reference internal" href="#django-configuration" id="id3">Django configuration</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#contact-its" id="id4">Contact ITS</a></p></li>
+<li><p><a class="reference internal" href="#tips" id="id5">Tips</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-config-file" id="id6">Example config file</a></p></li>
+<li><p><a class="reference internal" href="#multiple-idp-s" id="id7">Multiple IdP’s</a></p></li>
+<li><p><a class="reference internal" href="#advanced-options" id="id8">Advanced options</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="library-setup">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Library Setup</a><a class="headerlink" href="#library-setup" title="Permalink to this heading">¶</a></h2>
+<section id="dependencies">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p>Depending on which configuration you use, any of these Linux packages may be
+required:</p>
+<ul class="simple">
+<li><p>libxml2</p></li>
+<li><p>libxml2-dev</p></li>
+<li><p>libxslt1-dev</p></li>
+<li><p>python-dev</p></li>
+<li><p>pkg-config</p></li>
+<li><p>xmlsec1</p></li>
+</ul>
+</li>
+<li><p>For the python side, you only need to include the DSC library to your
+dependency list:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cdh</span><span class="o">-</span><span class="n">django</span><span class="o">-</span><span class="n">core</span><span class="p">[</span><span class="n">federated</span><span class="o">-</span><span class="n">auth</span><span class="p">]</span> <span class="o">@</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">CentreForDigitalHumanities</span><span class="o">/</span><span class="n">django</span><span class="o">-</span><span class="n">shared</span><span class="o">-</span><span class="n">core</span><span class="o">.</span><span class="n">git</span><span class="o">@&lt;</span><span class="n">version</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This will pull in all required dependencies. Substitute <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code> with
+the latest release tag.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use other apps of the DSC project, you should add <code class="docutils literal notranslate"><span class="pre">federated-auth</span></code>
+to the existing list of optional dependencies.</p>
+</div>
+</li>
+</ol>
+</section>
+<section id="django-configuration">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Django configuration</a><a class="headerlink" href="#django-configuration" title="Permalink to this heading">¶</a></h3>
+<p>For this guide, we will be adding SAML support in such a way that it can either
+run without or with SAML (as default). However, we will also provide some notes
+on how to add SAML support as an additional authentication backend.</p>
+<ol class="arabic">
+<li><p>Create a new file <code class="docutils literal notranslate"><span class="pre">saml_settings.py</span></code> next to the project’s <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>,
+and add the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdh.federated_auth.saml.settings</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">_BASE_DIR</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+<span class="n">SAML_CONFIG</span> <span class="o">=</span> <span class="n">create_saml_config</span><span class="p">(</span>
+    <span class="n">base_url</span><span class="o">=</span><span class="s1">&#39;&lt;app_hostname&gt;&#39;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&lt;app_name&gt;&#39;</span><span class="p">,</span>
+    <span class="n">key_file</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;certs/private.key&#39;</span><span class="p">),</span>
+    <span class="n">cert_file</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;certs/public.cert&#39;</span><span class="p">),</span>
+    <span class="n">idp_metadata</span><span class="o">=</span><span class="s1">&#39;https://login.uu.nl/nidp/saml2/metadata&#39;</span><span class="p">,</span>
+    <span class="n">contact_given_name</span><span class="o">=</span><span class="s1">&#39;&lt;contact_name&gt;&#39;</span><span class="p">,</span>
+    <span class="n">contact_email</span><span class="o">=</span><span class="s1">&#39;&lt;contact_email&gt;&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">AUTHENTICATION_BACKENDS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;djangosaml2.backends.Saml2Backend&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">LOGIN_URL</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;saml2_login&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Change the following values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;app_hostname&gt;</span></code>: the hostname of the app, <strong>including</strong> <code class="docutils literal notranslate"><span class="pre">https://</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;app_name&gt;</span></code>: the name of your application</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;contact_name&gt;</span></code>: the name of the team managing this application</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;contact_email&gt;</span></code>: the email address of the team managing this
+application. ITS will use this email address as a contact when they
+make changes to the IdP that requires changes on the SP as well.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AUTHENTICATION_BACKENDS</span></code>: if you want to keep using other authentication
+backends, you’ll need to add those here as well.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LOGIN_URL</span></code>: This will make SAML the default page when Django redirects
+the user trying to access a login-required page. If you want to use
+multiple login backends, you should omit this setting and provide a link
+to this view on your regular login page instead.</p></li>
+</ul>
+</li>
+<li><p>These settings are for the production IdP. To use the acceptation IdP,
+change <code class="docutils literal notranslate"><span class="pre">login.uu.nl</span></code> to <code class="docutils literal notranslate"><span class="pre">login.acc.uu.nl</span></code> (in <code class="docutils literal notranslate"><span class="pre">idp_metadata</span></code>). You can
+also use the URL of the <a class="reference internal" href="../developmentidp/index.html"><span class="doc">Development IdP</span></a>
+here, if you are using that.</p></li>
+<li><p>(Optional) These settings assume you use the default Django user model and
+corresponding SAML user attributes. If you use a different user model/more
+attributes, you need to add a custom <em>attribute mapping</em>. To do this, add
+the following to <code class="docutils literal notranslate"><span class="pre">saml_settings.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SAML_ATTRIBUTE_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;uuShortID&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,),</span>
+    <span class="s1">&#39;mail&#39;</span><span class="p">:</span>     <span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,),</span>
+    <span class="s1">&#39;givenName&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,),</span>
+    <span class="s1">&#39;uuPrefixedSn&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Add/change the attributes you use here. The key of this dict represents the
+name of the SAML attribute (the name you get in the response from the IdP),
+the value represents the name of the attribute in the Django user model.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SurfConext uses different attribute names, which can be found
+<a class="reference external" href="https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext">on their wiki</a>.</p>
+<p>The following is an attribute map for the default Django user model, using
+SurfConext attribute names:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SAML_ATTRIBUTE_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;uid&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,),</span>
+    <span class="s1">&#39;mail&#39;</span><span class="p">:</span>     <span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,),</span>
+    <span class="s1">&#39;givenName&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,),</span>
+    <span class="s1">&#39;sn&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p>In your project’s root <em>urlconf</em>, add the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+
+<span class="c1"># [..] (your urlpatterns, etc)</span>
+
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s1">&#39;SAML_CONFIG&#39;</span><span class="p">):</span>
+    <span class="n">urlpatterns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">path</span><span class="p">(</span><span class="s1">&#39;saml/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;djangosaml2.urls&#39;</span><span class="p">)),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>(Optional) If your app is going to use more than one authentication backend,
+you might have to use a different logout view. The default SAML logout view
+can only handle users logged in through SAML.</p>
+<p>You can use the default Django logout view alongside the SAML version, which
+has the drawback that you will have to manually route your users to the
+correct one.</p>
+<p>The FA-app provides a custom logout view that combines the default Django
+logout view with the SAML version. To use it, simply include the
+<code class="docutils literal notranslate"><span class="pre">cdh.federated_auth.saml.views.LogoutInitView</span></code> in your <em>urlconf</em> and
+direct your users to that view to log out.</p>
+</li>
+<li><p>In your project’s <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>, add the following to the bottom of the file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.saml_settings</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+    <span class="c1"># Only add the required apps/middleware if we could load the SAML config</span>
+    <span class="n">INSTALLED_APPS</span> <span class="o">+=</span> <span class="n">SAML_APPS</span>
+    <span class="n">MIDDLEWARE</span> <span class="o">+=</span> <span class="n">SAML_MIDDLEWARE</span>
+
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Proceeding without SAML&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This requires that <code class="docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code> and <code class="docutils literal notranslate"><span class="pre">MIDDLEWARE</span></code> as lists, not tuples.</p>
+</li>
+<li><p>Create a folder called <code class="docutils literal notranslate"><span class="pre">certs</span></code> in the project root. This directory will
+contain your app’s signing certificate. Please follow the
+<a class="reference internal" href="certificates.html"><span class="doc">certificates guide</span></a> to generate those. Make sure they
+the private key and certificate are called <code class="docutils literal notranslate"><span class="pre">private.key</span></code> and <code class="docutils literal notranslate"><span class="pre">public.cert</span></code>
+respectively. (Or update the filenames in <code class="docutils literal notranslate"><span class="pre">saml_settings.py</span></code> to the
+correct names).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is generally a very bad idea to store the certificates you use on
+deployed systems in git. However, you can store ‘development-only’ certs,
+and replace them manually during deployment on the server.</p>
+</div>
+</li>
+<li><p>Double check that you are using the correct login/logout views everywhere in
+your app.</p></li>
+<li><p>(Optional, but recommended). Test your configuration using the
+<a class="reference internal" href="../developmentidp/index.html"><span class="doc">Development IdP</span></a></p></li>
+</ol>
+</section>
+</section>
+<section id="contact-its">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Contact ITS</a><a class="headerlink" href="#contact-its" title="Permalink to this heading">¶</a></h2>
+<p>You should now contact ITS and ask them to add your Service Provider to their
+Identity Provider. Save the metadata (<code class="docutils literal notranslate"><span class="pre">&lt;app_hostname&gt;/saml/metadata/</span></code>) as an
+XML file and send this file to ITS, along with the message that you want to
+register your application with their Identity Provider. Give the base URL of your
+application and say if you want to make use of their acceptation or production
+Identity Provider (depending on what URL you entered in the <code class="docutils literal notranslate"><span class="pre">saml_settings.py</span></code>
+file).</p>
+<p>Also indicate which fields you want the Identity Provider to pass back with a
+successful authentication redirect (such as solis-ID, full name, e-mail address,
+etc).</p>
+<p>Once they have added you, you should be able to use SAML for authenticating your
+users.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ITS requires SAML trace of a successful login/logout on the acceptation
+environment before they allow a production SP to be added to the IdP.
+Please see the <a class="reference internal" href="trace.html"><span class="doc">SAML trace page</span></a> for more info.</p>
+</div>
+</section>
+<section id="tips">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Tips</a><a class="headerlink" href="#tips" title="Permalink to this heading">¶</a></h2>
+<section id="example-config-file">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Example config file</a><a class="headerlink" href="#example-config-file" title="Permalink to this heading">¶</a></h3>
+<p>In the guide we created a <code class="docutils literal notranslate"><span class="pre">saml_settings.py</span></code> to store all the required SAML
+configuration. As these settings vary between deployments (production,
+acceptation, (local) development), it is a good idea to put this file in
+your <em>gitignore</em>, and provide an ‘example file’ in your git repo instead.
+(<code class="docutils literal notranslate"><span class="pre">saml_settings.example.py</span></code> for example).</p>
+<p>As we configured Django to only add all the SAML related urls etc if the
+<code class="docutils literal notranslate"><span class="pre">saml_settings.py</span></code> file is present, this will also enable local development
+using the default authentication backend only.</p>
+</section>
+<section id="multiple-idp-s">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Multiple IdP’s</a><a class="headerlink" href="#multiple-idp-s" title="Permalink to this heading">¶</a></h3>
+<p>The FA-app is meant to be used with one IdP only. However, if you have multiple
+IdP which use the same config, you can use them simultaneously by adding the
+following config override to <code class="docutils literal notranslate"><span class="pre">create_saml_config</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_overrides</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;remote&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;idp1_metadata_url&gt;&#39;</span><span class="p">,},</span>
+            <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;idp2_metadata_url&gt;&#39;</span><span class="p">,},</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This can be used to in non-production environments to add both the ITS
+acceptation IdP and the <a class="reference internal" href="../developmentidp/index.html"><span class="doc">Development IdP</span></a>
+as a fallback option. (Useful if you want to be able to properly test SAML in
+the acceptation but also want to use custom test users).</p>
+<p>When logging in, you will be prompted for which IdP you want to use.</p>
+<p>If you want to use multiple IdP’s that use different configurations, please open
+an issue in the DSC repository.</p>
+</section>
+<section id="advanced-options">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Advanced options</a><a class="headerlink" href="#advanced-options" title="Permalink to this heading">¶</a></h3>
+<p>This guide is meant to easily setup SAML for 90% of the use-cases, for
+developers unfamiliar with SAML. Thus, it does not fully explain all available
+(configuration) options.</p>
+<p>If you have a special edge case or other requirements that require special
+configuration, it is recommended you consult the
+<code class="docutils literal notranslate"><span class="pre">cdh.federated_auth.saml.settings</span></code> file for more in-depth documentation.</p>
+</section>
+</section>
+</section>
+
+
+                            </div>
+                            </div>
+                </div>
+    </div>
+
+    <footer class="uu-footer">
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Centre for Digital Humanities, Utrecht University.</p>
+  </div> 
+
+</footer>
+</div>
+
+</body>
+</html>
