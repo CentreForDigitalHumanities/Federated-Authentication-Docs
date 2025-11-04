@@ -33,7 +33,7 @@ Dependencies
 
    .. code-block::
 
-      cdh-django-core[federated-auth] @ git+https://github.com/DH-IT-Portal-Development/django-shared-core.git@<version>
+      cdh-django-core[federated-auth] @ git+https://github.com/CentreForDigitalHumanities/django-shared-core.git@<version>
 
    This will pull in all required dependencies. Substitute ``<version>`` with
    the latest release tag.
